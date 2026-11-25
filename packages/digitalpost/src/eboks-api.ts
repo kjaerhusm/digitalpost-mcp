@@ -92,6 +92,7 @@ export class EboksApi {
   private readonly now: () => number;
   private readonly sleep: (ms: number) => Promise<void>;
   private access: EboksAccess | null = null;
+  private exchangeInFlight: Promise<string> | null = null;
 
   constructor(options: EboksApiOptions) {
     this.digitalPostAccessToken = options.digitalPostAccessToken;
@@ -254,6 +255,19 @@ export class EboksApi {
   }
 
   private async token(): Promise<string> {
+    if (this.access && tokenStillFresh(this.access, this.now())) return this.access.accessToken;
+    // e-Boks usertokens are single-use. discover calls profile, folders, and
+    // shares in parallel; without this, each starts its own exchange and the
+    // later POSTs fail with HTTP 400.
+    if (!this.exchangeInFlight) {
+      this.exchangeInFlight = this.exchangeAccess().finally(() => {
+        this.exchangeInFlight = null;
+      });
+    }
+    return this.exchangeInFlight;
+  }
+
+  private async exchangeAccess(): Promise<string> {
     if (this.access && tokenStillFresh(this.access, this.now())) return this.access.accessToken;
     const digitalPost = await this.digitalPostAccessToken();
     this.access = await exchangeEboksToken(digitalPost, this.device.id, this.fetchImpl, this.now());
