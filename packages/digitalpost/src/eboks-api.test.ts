@@ -210,6 +210,49 @@ describe('EboksApi', () => {
     expect(mail.some((call) => /POST|PUT|PATCH|DELETE/.test(call))).toBe(false);
   });
 
+  test('coalesces concurrent exchanges so a single-use usertoken is not spent twice', async () => {
+    const used = new Set<string>();
+    let userTokenCalls = 0;
+    let tokenCalls = 0;
+    const api = new EboksApi({
+      digitalPostAccessToken: async () => 'dp-access',
+      device,
+      fetchImpl: async (url, init) => {
+        const target = String(url);
+        if (target.includes('usertoken')) {
+          userTokenCalls += 1;
+          // Overlap the three discover-style callers before any token POST finishes.
+          await new Promise((resolve) => setTimeout(resolve, 30));
+          return Response.json({ userToken: 'same-user-tok' });
+        }
+        if (target.includes('oauth-dk.e-boks.com')) {
+          tokenCalls += 1;
+          const usertoken = new URLSearchParams(String(init?.body ?? '')).get('usertoken') ?? '';
+          if (used.has(usertoken)) {
+            return Response.json({ error: 'invalid_grant' }, { status: 400 });
+          }
+          used.add(usertoken);
+          return Response.json({ access_token: 'eboks-access', expires_in: 300 });
+        }
+        if (target.endsWith('/user/profile')) return Response.json({ name: 'Test Person' });
+        if (target.endsWith('/mail/folders')) return Response.json([]);
+        if (target.endsWith('/mail/shares')) return Response.json([]);
+        return new Response(null, { status: 404 });
+      },
+    });
+
+    const [profile, folders, shares] = await Promise.all([
+      api.profile(),
+      api.listFolders(),
+      api.shares(),
+    ]);
+    expect(profile.name).toBe('Test Person');
+    expect(folders).toEqual([]);
+    expect(shares).toEqual([]);
+    expect(userTokenCalls).toBe(1);
+    expect(tokenCalls).toBe(1);
+  });
+
   test('content helpers are GET-only and do not undo the read mark', () => {
     const source = readFileSync(new URL('./eboks-api.ts', import.meta.url), 'utf8');
     expect(source).toContain('/content');
