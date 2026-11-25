@@ -1,0 +1,6 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+
+# Wait a day before installing a newly published version.
+minimumReleaseAge: 1440

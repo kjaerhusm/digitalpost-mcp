@@ -1,0 +1,24 @@
+{
+  "name": "@digitalpost/mitid",
+  "private": true,
+  "description": "Generic MitID core client (APP QR / push, SRP, PKCE helpers), vendored from aula-mcp.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjaerhusm/digitalpost-mcp.git"
+  },
+  "homepage": "https://github.com/kjaerhusm/digitalpost-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/kjaerhusm/digitalpost-mcp/issues"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "tough-cookie": "^6.1.0"
+  }
+}

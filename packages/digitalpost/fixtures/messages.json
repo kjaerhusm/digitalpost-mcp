@@ -1,0 +1,44 @@
+{
+  "currentPage": 0,
+  "totalPages": 1,
+  "totalElements": 2,
+  "messages": [
+    {
+      "id": "msg-1",
+      "mailboxId": "mb-citizen",
+      "folderId": "folder-inbox",
+      "label": "Ejendomsskat 2026",
+      "receivedDateTime": "2026-03-02T09:15:00Z",
+      "read": false,
+      "legallyNotified": false,
+      "replyByDateTime": "2026-04-01T00:00:00Z",
+      "sender": { "label": "Skatteforvaltningen", "senderId": "00000000" },
+      "recipient": { "label": "Test Citizen", "recipientId": "0000000000" },
+      "documents": [
+        {
+          "id": "doc-1",
+          "label": "Brev",
+          "documentType": "LETTER",
+          "files": [
+            {
+              "id": "file-1",
+              "filename": "skat.pdf",
+              "encodingFormat": "application/pdf",
+              "fileSize": 1200
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "msg-2",
+      "mailboxId": "mb-citizen",
+      "folderId": "folder-inbox",
+      "label": "Allerede læst",
+      "receivedDateTime": "2026-01-01T08:00:00Z",
+      "read": true,
+      "sender": { "label": "Kommunen" },
+      "documents": []
+    }
+  ]
+}

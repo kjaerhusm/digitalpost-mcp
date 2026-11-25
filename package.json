@@ -1,0 +1,36 @@
+{
+  "name": "digitalpost-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal MCP server for a Danish Digital Post mailbox. Digital Post never marks read; e-Boks content download marks the e-Boks letter read.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjaerhusm/digitalpost-mcp.git"
+  },
+  "homepage": "https://github.com/kjaerhusm/digitalpost-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/kjaerhusm/digitalpost-mcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.21.0",
+  "scripts": {
+    "digitalpost": "bun apps/cli/src/index.ts",
+    "mcp": "bun packages/mcp-server/src/server.ts",
+    "mcp:stdio": "bun packages/mcp-server/src/server-stdio.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "@types/bun": "^1.4.4",
+    "@types/node": "^24.19.2",
+    "@types/qrcode": "^1.5.6",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@digitalpost/cli",
+  "private": true,
+  "description": "CLI for digitalpost-mcp: login, whoami, renew, doctor.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjaerhusm/digitalpost-mcp.git"
+  },
+  "homepage": "https://github.com/kjaerhusm/digitalpost-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/kjaerhusm/digitalpost-mcp/issues"
+  },
+  "type": "module",
+  "dependencies": {
+    "@digitalpost/client": "workspace:*",
+    "@digitalpost/mcp-server": "workspace:*"
+  }
+}

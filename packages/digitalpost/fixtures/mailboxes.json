@@ -1,0 +1,16 @@
+{
+  "mailboxes": [
+    {
+      "id": "mb-citizen",
+      "ownerType": "CITIZEN",
+      "ownerName": "Test Citizen",
+      "ownerIdentityId": "0000000000"
+    },
+    {
+      "id": "mb-org",
+      "ownerType": "ORGANISATION",
+      "ownerName": "Test ApS",
+      "ownerIdentityId": "12345678"
+    }
+  ]
+}
